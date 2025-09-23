@@ -5,6 +5,28 @@ from selenium.webdriver.chrome.options import Options
 from app import app as flask_app
 import threading
 import time
+import os
+from datetime import datetime
+
+
+#  в начало файла
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config):
+    """Создаем папку для отчетов если ее нет"""
+    if not os.path.exists('reports'):
+        os.makedirs('reports')
+
+@pytest.fixture(scope="session", autouse=True)
+def configure_html_report():
+    """Конфигурация для HTML отчетов"""
+    # Эта фикстура выполнится перед всеми тестами
+    yield
+    
+    # Код после yield выполнится после всех тестов
+    print("\n" + "="*60)
+    print("📊 ТЕСТИРОВАНИЕ ЗАВЕРШЕНО")
+    print("Отчет сохранен в: reports/pytest-report.html")
+    print("="*60)
 
 # Все фикстуры с правильными областями видимости
 @pytest.fixture(scope='session')

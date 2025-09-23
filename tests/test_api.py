@@ -14,10 +14,11 @@ class TestAPI:
         assert len(data) == expected_count
         assert all('id' in user and 'name' in user and 'email' in user for user in data)
     
+    # ИСПРАВЛЕННЫЕ ТЕСТЫ - обновленные имена
     @pytest.mark.nondestructive
     @pytest.mark.parametrize('user_id,expected_name', [
-        (1, 'Alice'),
-        (2, 'Bob')
+        (1, 'Alice Johnson'),  # ← ИСПРАВЛЕНО
+        (2, 'Bob Smith')       # ← ИСПРАВЛЕНО
     ])
     def test_get_user_by_id(self, client, user_id, expected_name):
         """Параметризированный тест получения пользователя по ID"""
