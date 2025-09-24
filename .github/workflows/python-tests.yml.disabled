@@ -43,12 +43,24 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y chromium-browser chromium-chromedriver
         
+    # - name: Run tests with pytest
+    #   env:
+    #     PYTHONPATH: .
+    #   run: |
+    #     python -m pytest -v --html=test-report.html --self-contained-html
+
+    - name: Start application
+      run: |
+        python app.py &
+        sleep 5  # Ждем запуска приложения
+
     - name: Run tests with pytest
       env:
         PYTHONPATH: .
       run: |
-        python -m pytest -v --html=test-report.html --self-contained-html
-        
+        python -m pytest tests/test_unit.py tests/test_integration.py -v --html=test-report-backend.html --self-contained-html
+        python -m pytest tests/test_ui.py tests/test_simple_ui.py tests/test_advanced_ui.py -v --html=test-report-frontend.html --self-contained-html
+        python -m pytest tests/test_api.py tests/test_with_running_app.py -v --html=test-report-api.html --self-contained-html    
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:

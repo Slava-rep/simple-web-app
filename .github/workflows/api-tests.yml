@@ -1,0 +1,46 @@
+name: API Tests
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'tests/test_api/**'
+      - 'tests/test_with_running_app.py'
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.12]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Start application
+      run: |
+        python app.py &
+        sleep 5
+        
+    - name: Run API tests
+      env:
+        PYTHONPATH: .
+      run: |
+        python -m pytest tests/test_api.py tests/test_with_running_app.py -v --html=test-report-api.html --self-contained-html
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: api-test-results
+        path: test-report-api.html
