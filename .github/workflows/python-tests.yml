@@ -1,10 +1,15 @@
 name: Python Tests CI/CD
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      python-version:
+      
+# on:
+  # push:
+  #   branches: [ main, master ]
+  # pull_request:
+  #   branches: [ main, master ]
 
 jobs:
   test:
@@ -16,7 +21,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
+    # - name: Debug Python version input
+    #   run: echo "Python version from matrix: ${{ matrix.python-version }}"
+    
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
