@@ -57,6 +57,7 @@ def api_client(base_url):
 def browser():
     """Фикстура для браузера Selenium с улучшенными настройками"""
     chrome_options = Options()
+    chrome_options.binary_location = "/usr/bin/chromium-browser"
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
