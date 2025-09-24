@@ -4,9 +4,9 @@ on:
   push:
     branches: [ main, master ]
     paths:
-      - 'tests/test_ui/**'
-      - 'tests/test_simple_ui.py'
-      - 'tests/test_advanced_ui.py'
+      - 'tests/test_ui/**' #срабатывает при изменении файлов в этой папке и подпапках
+      - 'tests/test_simple_ui.py' #срабатывает при изменении этого файла
+      - 'tests/test_advanced_ui.py' #срабатывает при изменении этого файла
   pull_request:
     branches: [ main, master ]
 
@@ -18,11 +18,11 @@ jobs:
         python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v4 #чекаутит код из репо 
+    - name: Set up Python ${{ matrix.python-version }} 
+      uses: actions/setup-python@v4 
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }} 
     
     - name: Install dependencies
       run: |

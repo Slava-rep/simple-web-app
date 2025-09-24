@@ -3,9 +3,10 @@ name: API Tests
 on:
   push:
     branches: [ main, master ]
-    paths:
-      - 'tests/test_api/**'
-      - 'tests/test_with_running_app.py'
+    paths:                      #если убрать paths, то будет срабатывать на все пуши
+      - 'tests/test_api/**' #срабатывает при изменении файлов в этой папке и подпапках
+      - 'tests/test_with_running_app.py' #срабатывает при изменении этого файла
+    #   - 'app.py'  # все тесты будут срабатывать при изменении любого Python файла
   pull_request:
     branches: [ main, master ]
 

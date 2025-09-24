@@ -4,39 +4,39 @@ on:
   push:
     branches: [ main, master ]
     paths:
-      - '**.py'
-      - '!tests/test_ui/**'
-      - '!tests/test_api/**'
+      - '**.py' # Срабатывает при изменении любого Python файла
+      - '!tests/test_ui/**' #исключает файлы из срабатывания
+      - '!tests/test_api/**' #исключает файлы из срабатывания
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master ] #срабатывает на пул реквесты в эти ветки
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
+jobs: # Определяет рабочие процессы
+  test: # имя задачи
+    runs-on: ubuntu-latest #использует виртуальную машину с убунтой
+    strategy: 
+      matrix: #матрица для тестирования на разных версиях питона
         python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v4 #чекаутит код из репо
+    - name: Set up Python ${{ matrix.python-version }} #устанавливает питон
+      uses: actions/setup-python@v4 #использует экшен для установки питона
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }} #устанавливает версию питона из матрицы
     
-    - name: Install dependencies
+    - name: Install dependencies 
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements.txt 
         
     - name: Run backend tests
-      env:
-        PYTHONPATH: .
-      run: |
+      env: 
+        PYTHONPATH: . #устанавливает переменную окружения PYTHONPATH
+      run: | 
         python -m pytest tests/test_unit.py tests/test_integration.py -v --html=test-report-backend.html --self-contained-html
         
     - name: Upload test results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4 #загружает артефакты (отчеты) из воркфлоу
       with:
-        name: backend-test-results
-        path: test-report-backend.html
+        name: backend-test-results #имя артефакта
+        path: test-report-backend.html #путь к файлу отчета
