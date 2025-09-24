@@ -10,7 +10,7 @@ class TestUnit:
     def test_users_list_initialization(self):
         """Тест инициализации списка пользователей"""
         assert len(users) == 2
-        assert users[0]['name'] == 'Alice'
+        assert users[0]['name'] == 'Alice Johnson'
         assert users[1]['email'] == 'bob@test.com'
     
     @pytest.mark.nondestructive
