@@ -46,6 +46,7 @@ class TestAdvancedUI:
     @pytest.mark.nondestructive
     @pytest.mark.parametrize('name,email,department', [
         ('John Doe', 'john@example.com', 'Engineering'),
+        ('Alice Johnson', '	alice@test.com', 'Engineering'),
         ('Jane Smith', 'jane@example.com', 'Marketing')
     ])
     def test_add_user_with_department(self, browser, base_url, name, email, department):
